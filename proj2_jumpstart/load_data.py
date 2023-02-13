@@ -114,7 +114,7 @@ def get_hf_loader(data, embedding_model, text_pipeline, label_pipeline, batch_si
 
             processed_text = text_pipeline(_text, max_length = max_len, padding = 'max_length', truncation = True)
             input_ids, attention_mask = processed_text['input_ids'], processed_text['attention_mask']
-            embedding = embedding_model(input_ids, return_tensors="pt")
+            embedding = embedding_model(input_ids)
 
             if projection:
                 embedding = projection.transform(embedding)
