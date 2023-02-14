@@ -184,7 +184,7 @@ def export_to_cache(dataloader, ofile):
 
 def get_hf_data_loaders(train_file, val_file, test_file, batch_size, max_len, label_map,
                         # hf_llm_name='distilbert-base-uncased',
-                        hf_llm_name='bert-base-uncased',
+                        hf_llm_name='distilbert-base-uncased',
                         cache_dir=None,
                         proj_size=0):
     """Construct dataloaders for the training, validation and test data with fixed context sensitive
@@ -229,7 +229,7 @@ def get_hf_data_loaders(train_file, val_file, test_file, batch_size, max_len, la
 
 llm_catalog = {
     'distilbert-base-uncased': (DistilBertTokenizer.from_pretrained, DistilBertModel.from_pretrained),
-    'bert-base-uncased' : (AutoTokenizer.from_pretrained, BertModel.from_pretrained),
+    ##'bert-base-uncased' : (AutoTokenizer.from_pretrained, BertModel.from_pretrained),
     ##'openai-gpt' : (AutoTokenizer.from_pretrained, OpenAIGPTModel.from_pretrained)
     ## add more model options here if desired
 }

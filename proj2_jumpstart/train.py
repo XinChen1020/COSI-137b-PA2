@@ -6,6 +6,7 @@ import numpy as np
 import torch
 import sys
 from sklearn.metrics import precision_recall_curve, average_precision_score
+import tqdm
 
 from load_data import get_data_loaders, get_hf_data_loaders
 from model import CNNTextClassifier, LSTMTextClassifier, DANTextClassifier
