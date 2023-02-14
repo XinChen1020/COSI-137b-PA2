@@ -115,7 +115,6 @@ def get_hf_loader(data, embedding_model, text_pipeline, label_pipeline, batch_si
             processed_text = text_pipeline(_text, max_length = max_len, padding = 'max_length', truncation = True,return_tensors="pt")
             input_ids, attention_mask = processed_text['input_ids'], processed_text['attention_mask']
             embedding = embedding_model(input_ids).last_hidden_state[0]
-
             if projection:
                 embedding = torch.from_numpy(projection.transform(embedding.detach().numpy()))
 
@@ -124,7 +123,7 @@ def get_hf_loader(data, embedding_model, text_pipeline, label_pipeline, batch_si
             mask_list.append(attention_mask)
 
         label_list = torch.tensor(label_list, dtype=torch.int64)
-        embedding_list = torch.vstack(embedding_list)
+        embedding_list = torch.stack(embedding_list)
         mask_list = torch.vstack(mask_list)
         return label_list.to(device), embedding_list.to(device), mask_list.to(device)
 

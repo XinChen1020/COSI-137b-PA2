@@ -87,7 +87,7 @@ class DANTextClassifier(nn.Module):
             feedforward_layers = feedforward_layers + [('dropout' + str(i), nn.Dropout(dr)),
                                                        ('line' + str(i), nn.Linear(dense_units[i - 1], dense_units[i])),
                                                        ('relu' + str(i), nn.ReLU())]
-        self.feedforward_layers = nn.Sequential(OrderedDict(feedforward_layers))
+        self.feedforward_layers = nn.Sequential(OrderedDict(feedforward_layers)).float()
 
         # final projection layer
         self.classifier = nn.Linear(dense_units[-1], num_classes)
@@ -105,10 +105,10 @@ class DANTextClassifier(nn.Module):
 
     def from_embedding(self, embedding, mask):
         mask = mask.unsqueeze(-1)
+
         mask_embed = embedding.masked_fill(mask == 0, value=0)
         seq_length = mask_embed.size()[1]
-        average_pooling = F.avg_pool2d(mask_embed, kernel_size=(seq_length, 1), count_include_pad=True).squeeze(1)
-
+        average_pooling = F.avg_pool2d(mask_embed, kernel_size=(seq_length, 1), count_include_pad=True).squeeze(1).to(torch.float32)
         linear = self.feedforward_layers(average_pooling)
 
         classifier = self.classifier(linear)
