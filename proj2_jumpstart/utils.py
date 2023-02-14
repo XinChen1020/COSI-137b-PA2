@@ -9,8 +9,7 @@ __all__ = ['logging_config', 'get_device']
 def get_device():
     if torch.has_cuda:
         return torch.device("cuda")
-    elif torch.has_mps:
-        return torch.device("mps")
+
     else:
         return torch.device("cpu")
     

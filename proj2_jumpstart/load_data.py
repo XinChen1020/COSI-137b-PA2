@@ -112,12 +112,12 @@ def get_hf_loader(data, embedding_model, text_pipeline, label_pipeline, batch_si
             ## 4. finally, the projection (if provided - i.e. not None) should be used to reduce the
             ##    dimensionality of the embedding
 
-            processed_text = text_pipeline(_text, max_length = max_len, padding = 'max_length', truncation = True)
+            processed_text = text_pipeline(_text, max_length = max_len, padding = 'max_length', truncation = True,return_tensors="pt")
             input_ids, attention_mask = processed_text['input_ids'], processed_text['attention_mask']
-            embedding = embedding_model(input_ids)
+            embedding = embedding_model(input_ids).last_hidden_state[0]
 
             if projection:
-                embedding = projection.transform(embedding)
+                embedding = torch.from_numpy(projection.transform(embedding.detach().numpy()))
 
             label_list.append(label_pipeline(_label))
             embedding_list.append(embedding)
