@@ -78,13 +78,6 @@ def get_data_loaders(train_file, val_file, test_file, batch_size, max_len, label
     return vocab, train_dataloader, val_dataloader, test_dataloader
 
 
-########################################################################################################
-#### The code ABOVE is for creating dataloaders for use with static word (type) embeddings (e.g. Glove).
-####
-#### The code BELOW is for dataloaders that assume a Large Language Model (LLM) embedding model required
-#### for Assignment 2.
-########################################################################################################
-
 
 def get_hf_loader(data, embedding_model, text_pipeline, label_pipeline, batch_size, max_len,
                   shuffle=False, projection=None):
